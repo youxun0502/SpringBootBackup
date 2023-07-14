@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Add House</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navbar}"></div>
+	<div class="container">
+		<h1>Add House</h1>
+		<form id="myForm" action="#">
+			<label style="width: 80px; text-align: right; margin-right: 5px;" class="me-2">物件名稱:</label> <input
+				name="houseName" id="houseName" /> <br /> <label style="width: 80px; text-align: right; margin-right: 5px;"
+				class="me-2">圖片檔案:</label> <input name="file" type="file" multiple id="file" /> <br />
+			<button id="submitBtn" class="btn btn-outline-primary">送出</button>
+		</form>
+		<div id="upload_result"></div>
+
+	</div>
+
+
+	<script>
+		const myForm = document.querySelector('#myForm');
+		const submitBtn = document.querySelector('#submitBtn');
+
+		submitBtn.addEventListener('click', (e) => {
+
+			e.preventDefault;
+
+			const houseForm = document.querySelector('#myForm');
+
+			const formObject = new FormData(houseForm);
+
+			submitObject(formObject);
+		})
+
+		function submitObject(formObject) {
+			axios.post('http://localhost:8081/my-app/house/post', formObject)
+				.then(response => {
+					console.log('upload ok!!!');
+					var resultBlock = document.getElementById('upload_result');
+					resultBlock.innerHTML = response.data;
+
+					document.getElementById('myForm').reset()
+				})
+				.catch(err => {
+					var resultBlock = document.getElementById('upload_result');
+					console.log('something wrong');
+					resultBlock.innerHTML = '不行喔'
+				})
+		}
+	</script>
+</body>
+
+</html>

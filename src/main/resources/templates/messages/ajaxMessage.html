@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+
+	<div th:replace="~{layout/navbar}"></div>
+	<div class="container">
+		<h1>ajax Message</h1>
+
+
+		<form id="msgForm" action="#">
+			<input id="myMessage" required />
+			<button id="submitBtn">送出</button>
+		</form>
+		<table id="list_json_data">
+			<thead>
+				<tr>
+					<td>留言內容</td>
+					<td>留言時間</td>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+	<script>
+
+		document.getElementById('submitBtn').addEventListener('click', function (event) {
+			event.preventDefault();
+
+			const url = "http://localhost:8081/my-app/messages/api/post";
+			const inputText = document.getElementById('myMessage').value;
+			const dtoJsObject = { text: inputText }
+			const dtoJsonString = JSON.stringify(dtoJsObject);
+
+
+			fetch(url, {
+				method: "post",
+				body: dtoJsonString,
+				headers: { 'content-Type': 'application/json' }
+			})
+				.then(response => {
+					return response.json();
+				})
+				.then(jsPageObject => {
+					document.getElementById('msgForm').reset();
+					htmlMacker(jsPageObject);
+				})
+				.catch(err => {
+					console.log('err: ' + err);
+				})
+		})
+
+		function htmlMacker(data) {
+			msg_data = '<tbody>'
+			data.content.forEach(el => {
+				msg_data += '<tr>'
+				msg_data += '<td>' + el.text + '</td>'
+				msg_data += '<td>' + el.added + '</td>'
+				msg_data += '</tr>'
+			})
+			msg_data += '</tbody>'
+
+			let totalPages = data.totalPages;
+
+			for (var i = 1; i <= totalPages; i++) {
+				msg_data += `<button class="pageBtn"; data-pageid="${i}" >${i}</button>`;
+			}
+
+			const myTable = document.getElementById('list_json_data')
+			myTable.getElementsByTagName('tbody')[0].innerHTML = msg_data;
+
+
+			let pageBtn = document.querySelectorAll(".pageBtn");
+
+			for (i = 0; i < pageBtn.length; i++) {
+				pageBtn[i].addEventListener('click', function (e) {
+					let msgID = this.getAttribute('data-pageid');
+					queryPageRequest(msgID);
+				})
+			}
+
+
+		}
+
+		function queryPageRequest(msgID) {
+			fetch(`http://localhost:8081/my-app/messages/api/page?p=${msgID}`, {
+				method: "get",
+				headers: { 'content-Type': 'application/json' }
+			})
+				.then(response => {
+					return response.json();
+				})
+				.then(jsPageObject => {
+					htmlMacker(jsPageObject);
+				})
+				.catch(err => {
+					console.log('err: ' + err);
+				})
+		}
+	</script>
+</body>
+
+</html>

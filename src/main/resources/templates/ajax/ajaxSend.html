@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Ajax Send</title>
+</head>
+<body>
+	<div th:replace="~{layout/navbar}"></div>
+	<div class="container">
+		<h1>Ajax Send</h1>
+
+	<input type="text" id="name_input" placeholder="請輸入姓名">
+	<br/>
+	<input type="number" id="level_input" placeholder="請輸入等級">
+	<button class="my-customer-data-btn btn btn-primary">送出</button>	
+	<div class="output"></div>
+	</div>
+	
+	
+	
+	<script th:src="@{/js/ajax-send.js}"></script>
+</body>
+</html>

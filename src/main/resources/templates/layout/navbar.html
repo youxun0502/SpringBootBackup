@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}">Jerry666</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Home</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/messages/add}">新增訊息</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/messages/page}">查看訊息</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/photo/new}">上傳圖片</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/photo/listAllPhoto}">查看圖片</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/users/register}">註冊帳號</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/playAjax/intro}">ajax1</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/playAjax/send}">ajaxSend</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/messages/ajax}">ajaxMessage</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/messages/mix}">ajaxMix</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/photo/ajaxUpload}">Upload-AJAX</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/house/add}">add-house</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/house/list}">666看房網</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/users/login}">登入</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/users/logout}">登出</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+	<script th:src="@{/js/axios.min.js}"></script>
+</body>
+
+</html>

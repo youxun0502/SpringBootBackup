@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>LoginPage</title>
+</head>
+<body>
+	<div th:replace="~{layout/navbar}"></div>
+	<h1>LoginPage</h1>
+	<div class="container">
+		<form th:action="@{/users/login}" method="post">
+			<label style="width: 80px; text-align: right; margin-right: 5px;"
+				class="me-2">帳號:</label><input name="username" /> <br /> <label
+				style="width: 80px; text-align: right; margin-right: 5px;"
+				class="me-2">密碼:</label><input name="pwd" type="password" /> <br />
+			<input type="submit" value="送出" />
+		</form>
+	<div th:text="${session.loginUser} ? '安安' + ${session.loginUser.username}"></div>
+	<div th:text="${loginFail} ? ${loginFail}"></div>
+	
+	</div>
+</body>
+</html>

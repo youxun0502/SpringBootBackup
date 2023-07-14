@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>列出房屋</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navbar}"></div>
+	<div class="container">
+		<h1>看房666</h1>
+
+		<table>
+			<th:block th:each="oneHouse : ${listHouse}">
+				<tr>
+					<td th:text="${oneHouse.houseName}"></td>
+					<td><button class="photo-btn" th:data-id="${oneHouse.id}">看房</button></td>
+				</tr>
+			</th:block>
+		</table>
+
+		<div id="photo_output"></div>
+	</div>
+</body>
+
+<script>
+
+	const photoBtn = document.getElementsByClassName("photo-btn");
+
+	for (i = 0; i < photoBtn.length; i++) {
+		photoBtn[i].addEventListener('click', function (e) {
+			let houseId = this.getAttribute('data-id');
+			findHousePhoto(houseId);
+		})
+	}
+
+	function findHousePhoto(oneHouseId) {
+		axios({
+			url: "http://localhost:8081/my-app/house/photoIds",
+			method: "get",
+			params: {
+				houseId: oneHouseId
+			}
+		})
+			.then(response => {
+				console.log('response ' + response.data);
+				htmlMaker(response.data);
+			})
+	}
+
+	function htmlMaker(imgList) {
+		const photoOutput = document.querySelector("#photo_output");
+
+		let imgHtml = '';
+		for (i = 0; i < imgList.length; i++) {
+			imgHtml += `<img width="200px" src="http://localhost:8081/my-app/house/image?id=${imgList[i]}"></img>`
+		}
+		photoOutput.innerHTML = imgHtml;
+	}
+</script>
+
+</html>

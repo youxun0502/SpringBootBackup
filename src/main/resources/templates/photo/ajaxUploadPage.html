@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<div th:replace="~{layout/navbar}"></div>
+
+	<div class="container">
+		<h1>AJax Upload</h1>
+		<form id="myForm" action="#" method="post" enctype="multipart/form-data">
+			<label style="width: 80px; text-align: right; margin-right: 5px;" class="me-2">圖片名稱:</label> <input
+				name="photoName" /> <br /> <label style="width: 80px; text-align: right; margin-right: 5px;"
+				class="me-2">檔案:</label> <input name="file" type="file" /> <br />
+			<button id="submitBtn" class="btn btn-outline-primary">送出</button>
+		</form>
+		<div id="upload_result"></div>
+	</div>
+</body>
+<script>
+	const uploadBtn = document.getElementById('submitBtn');
+
+	uploadBtn.addEventListener('click', (e) => {
+		e.preventDefault();
+
+		let form = document.getElementById('myForm');
+		let formdataObject = new FormData(form);
+		//打包 form表單的js物件，適合表單內很多input時使用
+		//有檔案相關的一定要用formdata 包成js物件，ajax才能送
+
+		sendPostRequest(formdataObject);
+	})
+
+	function sendPostRequest(formData) {
+		axios({
+			method: 'post',
+			url: 'http://localhost:8081/my-app/photo/ajaxPost',
+			data: formData,
+			headers: {
+				"Content-Type": "multipart/form-data"
+			}//axios 會自動做這件事，但是fetch, XMLHttpRequest不會自動做，要記得加
+		})
+			.then(response => {
+				let resultBlock = document.getElementById('upload_result');
+				resultBlock.innerHTML = response.data
+			})
+			.catch(err => {
+				console.log('err' + err);
+				let resultBlock = document.getElementById('upload_result');
+				resultBlock.innerHTML = '上傳失敗，請重新再試'
+			})
+			.finally(function () {
+				let form = document.getElementById("myForm");
+				form.reset();
+			})
+	}
+</script>
+
+</html>
